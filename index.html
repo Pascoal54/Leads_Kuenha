@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Inscrição</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        .subscribe-button {
+            background-color: #ff3131;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .subscribe-button:hover {
+            background-color: #d32828;
+        }
+
+        .bonus-message {
+            margin: 20px 0;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Inscrição 🤝</h1>
+    <p class="bonus-message">Receba seu bônus gratuito! 🎁</p>
+    <form id="subscribe-form">
+        <input type="text" id="name" placeholder="Seu Nome" required>
+        <input type="email" id="email" placeholder="Seu E-mail" required>
+        <button type="submit" class="subscribe-button" id="subscribe-button">Assinar</button>
+    </form>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+    (function(){
+        emailjs.init("wKkq4aNsvlZ1kyUP3"); // Inicializa o EmailJS com sua chave pública
+    })();
+
+    document.getElementById('subscribe-button').addEventListener('click', function(event) {
+        event.preventDefault(); // Previne o envio padrão do formulário
+
+        // Validação do campo nome
+        const nameField = document.getElementById('name');
+        let name = nameField.value.trim();
+        if (name.length < 10 || name.length > 30) {
+            alert('O nome deve ter entre 10 e 30 caracteres.');
+            return; // Interrompe o envio do e-mail se o nome for inválido
+        }
+
+        // Validação de e-mail
+        const emailField = document.getElementById('email');
+        const email = emailField.value.trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert('Por favor, insira um e-mail válido.');
+            return; // Interrompe o envio do e-mail se o e-mail for inválido
+        }
+
+        // Adiciona a referência Kuenha ao nome
+        name += " | Kuenha"; // Adiciona a referência Kuenha ao nome
+
+        // Cria um objeto com os dados do formulário
+        const formData = {
+            nome: name,
+            email: email
+        };
+
+        // Envia o e-mail usando o serviço EmailJs
+        emailjs.send('pascoalzage54', 'pascoalzage', formData) // Altere para seu SERVICE_ID e TEMPLATE_ID
+            .then(function() {
+                alert('Assinatura enviada com sucesso!'); // Mensagem de sucesso
+                document.getElementById('subscribe-form').reset(); // Limpa todos os campos após o envio bem-sucedido
+            }, function(error) {
+                alert('Erro ao enviar. Tente novamente.'); // Mensagem de erro
+                console.error('Erro ao enviar:', error); // Exibe o erro no console para depuração
+            });
+    });
+</script>
+
+</body>
+</html>
